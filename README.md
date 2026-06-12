@@ -1,4 +1,5 @@
-# KSP Datathon — Strix Team
+# KSP 
+
 
 Karnataka State Police crime intelligence system with voice-enabled querying. Users speak questions in natural language, which are transcribed via Zia STT, routed through an LLM tool-calling loop, and answered by querying the Catalyst Data Store.
 

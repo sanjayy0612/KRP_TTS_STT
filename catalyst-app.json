@@ -1,0 +1,64 @@
+{
+  "app_name": "ksp-datathon-strix",
+  "project_type": "Advanced",
+  "platform_version": "1.0",
+
+  "functions": [
+    {
+      "name":    "orchestrator",
+      "handler": "index.js",
+      "memory":  512,
+      "timeout": 30,
+      "runtime": "nodejs18.x",
+      "env_variables": {
+        "QUICKML_LLM_ENDPOINT": "{{QUICKML_LLM_ENDPOINT}}",
+        "QUICKML_API_KEY":      "{{QUICKML_API_KEY}}",
+        "ZIA_STT_ENDPOINT":     "{{ZIA_STT_ENDPOINT}}",
+        "ZIA_ACCESS_TOKEN":     "{{ZIA_ACCESS_TOKEN}}",
+        "FN_SEARCH_FIR_URL":    "{{FN_SEARCH_FIR_URL}}",
+        "FN_CRIME_BY_TYPE_URL": "{{FN_CRIME_BY_TYPE_URL}}",
+        "FN_HOTSPOT_DATA_URL":  "{{FN_HOTSPOT_DATA_URL}}",
+        "FN_TREND_ANALYSIS_URL":"{{FN_TREND_ANALYSIS_URL}}",
+        "FN_ACCUSED_LOOKUP_URL":"{{FN_ACCUSED_LOOKUP_URL}}",
+        "FN_STATION_STATS_URL": "{{FN_STATION_STATS_URL}}",
+        "FN_SUMMARY_STATS_URL": "{{FN_SUMMARY_STATS_URL}}"
+      }
+    },
+    { "name": "fn-search-fir",    "handler": "index.js", "memory": 256, "timeout": 15, "runtime": "nodejs18.x" },
+    { "name": "fn-crime-by-type", "handler": "index.js", "memory": 256, "timeout": 15, "runtime": "nodejs18.x" },
+    { "name": "fn-hotspot-data",  "handler": "index.js", "memory": 256, "timeout": 15, "runtime": "nodejs18.x" },
+    { "name": "fn-trend-analysis","handler": "index.js", "memory": 256, "timeout": 15, "runtime": "nodejs18.x" },
+    { "name": "fn-accused-lookup","handler": "index.js", "memory": 256, "timeout": 15, "runtime": "nodejs18.x" },
+    { "name": "fn-station-stats", "handler": "index.js", "memory": 256, "timeout": 15, "runtime": "nodejs18.x" },
+    { "name": "fn-summary-stats", "handler": "index.js", "memory": 256, "timeout": 15, "runtime": "nodejs18.x" }
+  ],
+
+  "api_gateway": {
+    "routes": [
+      { "path": "/api/query",  "method": "POST", "function": "orchestrator", "auth": true  },
+      { "path": "/api/health", "method": "GET",  "function": "orchestrator", "auth": false }
+    ],
+    "rate_limit": {
+      "requests_per_minute": 60,
+      "per": "user"
+    }
+  },
+
+  "datastore": {
+    "tables": ["zone", "district", "station", "crime_category", "fir", "accused", "victim", "hotspot_aggregate"]
+  },
+
+  "cache": {
+    "default_ttl": 300
+  },
+
+  "cron": [
+    {
+      "name":     "nightly-aggregation",
+      "schedule": "0 1 * * *",
+      "function": "fn-summary-stats",
+      "description": "Rebuild hotspot_aggregate table nightly"
+    }
+  ],
+
+}
