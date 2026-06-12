@@ -1,0 +1,12 @@
+{
+  "name": "fn-hotspot-data",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/functions/fn-hotspot-data/index.js",
+  "dependencies": {
+    "zcatalyst-sdk-node": "^2.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

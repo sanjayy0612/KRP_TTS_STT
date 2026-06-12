@@ -1,0 +1,17 @@
+{
+  "name": "ksp-orchestrator",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev":   "ts-node index.ts"
+  },
+  "dependencies": {
+    "zcatalyst-sdk-node": "^1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.0.0",
+    "ts-node":     "^10.9.0"
+  }
+}
