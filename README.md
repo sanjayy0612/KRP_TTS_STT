@@ -55,8 +55,21 @@ User Speech → [Zia STT] → Orchestrator → [LLM tool loop] → Function → 
 ├── scripts/deploy.sh        # Build + deploy all functions
 ├── catalyst-app.json        # Catalyst project config
 ├── tsconfig.base.json       # Shared TypeScript config
+├── frontend/                # Vite + React dashboard that calls /api/query
 └── .gitignore
 ```
+
+## Frontend
+
+The `frontend/` package is a standalone Vite app that posts user queries to the orchestrator at `/api/query`.
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+To point local development at a backend running elsewhere, set `VITE_API_BASE_URL` for the browser client or `API_PROXY_TARGET` for the Vite dev proxy.
 
 ## Deploy
 
